@@ -6,7 +6,6 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { AppLayout } from './components/layout/AppLayout';
 
-// Protected route wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = useAuth();
   
@@ -19,7 +18,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
   
   if (!user) {
-    // Check if we're on admin domain
     const isAdminDomain = window.location.hostname === 'root.mealflow.net';
     return <Navigate to={isAdminDomain ? "/login" : "/login"} replace />;
   }
@@ -33,7 +31,7 @@ const LandingPage = () => (
     <header className="bg-gradient-to-r from-emerald-600 to-emerald-800 py-16 text-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">
-          <h1 className="mb-6 text-5xl font-bold">MealFlow</h1>
+          <img src="/images/mealflow-logo.png" alt="MealFlow" className="mb-8 h-24" />
           <p className="mb-8 text-xl">A solução completa para gestão de refeitórios</p>
           <div className="flex gap-4">
             <a href="https://root.mealflow.net/login" className="rounded-lg bg-white px-6 py-3 font-semibold text-emerald-600 transition hover:bg-gray-100">
@@ -86,7 +84,6 @@ const LandingPage = () => (
 );
 
 const AppRoutes = () => {
-  // Determine the current domain type
   const hostname = window.location.hostname;
   const isAdminDomain = hostname === 'root.mealflow.net';
   const isTenantDomain = hostname.includes('.mealflow.net') && !isAdminDomain;
@@ -175,7 +172,6 @@ const AppRoutes = () => {
 };
 
 function App() {
-  // Set page title based on domain
   useEffect(() => {
     const hostname = window.location.hostname;
     if (hostname === 'root.mealflow.net') {

@@ -22,7 +22,6 @@ export const NavBar: React.FC<NavBarProps> = ({
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   
-  // Use mock modules for now, this would come from an API in production
   const modules = mockModules.filter(module => module.licensed);
 
   const toggleDropdown = (moduleId: string) => {
@@ -47,20 +46,13 @@ export const NavBar: React.FC<NavBarProps> = ({
       {/* Header */}
       <header className="fixed top-0 z-40 w-full border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
         <div className="flex h-16 items-center justify-between px-4 md:px-6">
-          {/* Left side - Tenant Logo */}
+          {/* Left side - Logo */}
           <div className="flex items-center">
             <img 
-              src={tenantLogo} 
-              alt={`${tenantName} logo`} 
+              src="/images/mealflow-logo.png"
+              alt="MealFlow"
               className="h-8 w-auto"
             />
-          </div>
-          
-          {/* Center - MealFlow Logo */}
-          <div className="hidden md:block">
-            <div className="text-xl font-semibold text-emerald-600 dark:text-emerald-500">
-              MealFlow
-            </div>
           </div>
           
           {/* Right side - User profile & actions */}
@@ -76,7 +68,7 @@ export const NavBar: React.FC<NavBarProps> = ({
               </span>
             </button>
             
-            {/* Toggle Theme - Dekstop*/}
+            {/* Toggle Theme - Desktop*/}
             <button
               className="hidden rounded-full p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300 md:block"
               onClick={toggleTheme}
@@ -294,9 +286,11 @@ export const NavBar: React.FC<NavBarProps> = ({
         <div className="fixed inset-0 z-30 bg-gray-900 bg-opacity-50 md:hidden">
           <div className="absolute right-0 h-full w-64 bg-white p-4 dark:bg-gray-900">
             <div className="mb-8 flex items-center justify-between">
-              <div className="text-xl font-semibold text-emerald-600 dark:text-emerald-500">
-                MealFlow
-              </div>
+              <img
+                src="/images/mealflow-logo.png"
+                alt="MealFlow"
+                className="h-8 w-auto"
+              />
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="rounded-full p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300"
@@ -457,7 +451,7 @@ export const NavBar: React.FC<NavBarProps> = ({
                 className="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-800"
                 onClick={handleLogout}
               >
-                <LogOut className="mr-3 h-5 w-5" />
+                <LogOut className="mr-3 h-5 w-4" />
                 Sign out
               </button>
             </div>

@@ -32,7 +32,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ isAdmin = false }) => {
     
     try {
       await login(email, password);
-      navigate(isAdmin ? '/admin/dashboard' : '/dashboard');
+      navigate(isAdmin ? '/dashboard' : '/dashboard');
     } catch (err) {
       // Error is already handled in the auth context
     }
@@ -44,7 +44,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ isAdmin = false }) => {
     setPassword('password');
     try {
       await login('admin@example.com', 'password');
-      navigate(isAdmin ? '/admin/dashboard' : '/dashboard');
+      navigate(isAdmin ? '/dashboard' : '/dashboard');
     } catch (err) {
       // Error is already handled in the auth context
     }
@@ -57,13 +57,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ isAdmin = false }) => {
         <div className="relative hidden w-0 flex-1 lg:block">
           <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-emerald-600 to-emerald-800">
             <div className="flex h-full flex-col items-center justify-center p-12">
-              <div className="mb-8">
-                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                  <path d="M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path d="M9.25 11.5L4.75 14L12 18.25L19.25 14L14.6722 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
-              </div>
-              <h1 className="mb-4 text-4xl font-bold text-white">MealFlow</h1>
+              <img src="/images/mealflow-logo.png" alt="MealFlow" className="mb-8 h-24" />
               <p className="mb-8 text-center text-xl text-white/90">
                 A plataforma completa para gestão integrada de refeitórios
               </p>
@@ -96,8 +90,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ isAdmin = false }) => {
           <div className="text-center">
             <img
               className="mx-auto h-16 w-auto"
-              src="/images/tenant-logo.svg"
-              alt="Logo do Tenant"
+              src="/images/mealflow-logo.png"
+              alt="MealFlow"
             />
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
               {isAdmin ? 'Administração MealFlow' : 'Entre na sua conta'}
