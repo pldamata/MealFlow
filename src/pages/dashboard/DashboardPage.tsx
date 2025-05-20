@@ -1,313 +1,496 @@
 import React from 'react';
-import { Utensils, Users, Clock, PieChart, ArrowRight, CreditCard, ShoppingCart, ChefHat } from 'lucide-react';
-import { Button } from '../../components/ui/Button';
+import { 
+  BarChart3, 
+  TrendingUp, 
+  Users, 
+  Calendar, 
+  Utensils, 
+  Clock, 
+  AlertTriangle,
+  ArrowUpRight,
+  ArrowDownRight
+} from 'lucide-react';
+import { cn } from '../../utils/cn';
 
-export const DashboardPage: React.FC = () => {
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+interface StatCardProps {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  change?: {
+    value: string;
+    trend: 'up' | 'down' | 'neutral';
+  };
+  className?: string;
+}
 
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon, change, className }) => {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{today}</p>
+    <div className={cn("bg-white rounded-lg shadow-sm p-6", className)}>
+      <div className="flex items-center">
+        <div className="p-3 rounded-md bg-emerald-50 text-emerald-600">
+          {icon}
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm">
-            Export Report
-          </Button>
-          <Button size="sm">
-            Quick Actions
-          </Button>
+        <div className="ml-5">
+          <p className="text-sm font-medium text-gray-500">{title}</p>
+          <h3 className="text-2xl font-bold text-gray-900 mt-1">{value}</h3>
         </div>
       </div>
+      
+      {change && (
+        <div className="mt-4 flex items-center">
+          {change.trend === 'up' ? (
+            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
+          ) : change.trend === 'down' ? (
+            <ArrowDownRight className="h-4 w-4 text-red-500" />
+          ) : null}
+          
+          <span 
+            className={cn(
+              "text-sm font-medium ml-1",
+              change.trend === 'up' ? "text-emerald-600" : 
+              change.trend === 'down' ? "text-red-600" : 
+              "text-gray-500"
+            )}
+          >
+            {change.value}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
 
-      {/* Stats overview */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="overflow-hidden rounded-lg bg-white p-5 shadow transition-all hover:shadow-md dark:bg-gray-800">
-          <div className="flex items-center">
-            <div className="rounded-md bg-emerald-100 p-3 dark:bg-emerald-900/20">
-              <Utensils className="h-6 w-6 text-emerald-600 dark:text-emerald-500" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Today's Meals</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">384</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center">
-              <span className="text-sm font-medium text-green-600 dark:text-green-500">+4.6%</span>
-              <span className="ml-1.5 text-xs text-gray-500 dark:text-gray-400">from yesterday</span>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-hidden rounded-lg bg-white p-5 shadow transition-all hover:shadow-md dark:bg-gray-800">
-          <div className="flex items-center">
-            <div className="rounded-md bg-blue-100 p-3 dark:bg-blue-900/20">
-              <Users className="h-6 w-6 text-blue-600 dark:text-blue-500" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Active Consumers</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">295</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center">
-              <span className="text-sm font-medium text-green-600 dark:text-green-500">+2.3%</span>
-              <span className="ml-1.5 text-xs text-gray-500 dark:text-gray-400">from last week</span>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-hidden rounded-lg bg-white p-5 shadow transition-all hover:shadow-md dark:bg-gray-800">
-          <div className="flex items-center">
-            <div className="rounded-md bg-purple-100 p-3 dark:bg-purple-900/20">
-              <Clock className="h-6 w-6 text-purple-600 dark:text-purple-500" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Avg. Serving Time</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">5.2m</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center">
-              <span className="text-sm font-medium text-red-600 dark:text-red-500">+0.8m</span>
-              <span className="ml-1.5 text-xs text-gray-500 dark:text-gray-400">from average</span>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-hidden rounded-lg bg-white p-5 shadow transition-all hover:shadow-md dark:bg-gray-800">
-          <div className="flex items-center">
-            <div className="rounded-md bg-amber-100 p-3 dark:bg-amber-900/20">
-              <PieChart className="h-6 w-6 text-amber-600 dark:text-amber-500" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Satisfaction Rate</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">92%</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center">
-              <span className="text-sm font-medium text-green-600 dark:text-green-500">+1.2%</span>
-              <span className="ml-1.5 text-xs text-gray-500 dark:text-gray-400">from last month</span>
-            </div>
-          </div>
-        </div>
-      </div>
+interface AlertProps {
+  title: string;
+  description: string;
+  type: 'warning' | 'info' | 'success' | 'error';
+}
 
-      {/* Quick actions */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Next Period: Lunch</h2>
-          <div className="space-y-4">
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Reserved</p>
-                <p className="text-xl font-medium text-gray-900 dark:text-white">187 / 250</p>
-              </div>
-              <div className="h-10 w-10 rounded-full bg-emerald-100 p-2 dark:bg-emerald-900/20">
-                <CreditCard className="h-6 w-6 text-emerald-600 dark:text-emerald-500" />
-              </div>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-              <div className="h-full rounded-full bg-emerald-500" style={{ width: '75%' }}></div>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500 dark:text-gray-400">75% Capacity</span>
-              <span className="font-medium text-emerald-600 dark:text-emerald-500">63 slots remaining</span>
-            </div>
-            <Button variant="outline" rightIcon={<ArrowRight className="h-4 w-4" />} fullWidth>
-              View Meal Plan
-            </Button>
-          </div>
+const Alert: React.FC<AlertProps> = ({ title, description, type }) => {
+  const styles = {
+    warning: {
+      bg: 'bg-amber-50',
+      border: 'border-amber-200',
+      icon: <AlertTriangle className="h-5 w-5 text-amber-500" />,
+      title: 'text-amber-800',
+      description: 'text-amber-700'
+    },
+    info: {
+      bg: 'bg-blue-50',
+      border: 'border-blue-200',
+      icon: <AlertTriangle className="h-5 w-5 text-blue-500" />,
+      title: 'text-blue-800',
+      description: 'text-blue-700'
+    },
+    success: {
+      bg: 'bg-emerald-50',
+      border: 'border-emerald-200',
+      icon: <AlertTriangle className="h-5 w-5 text-emerald-500" />,
+      title: 'text-emerald-800',
+      description: 'text-emerald-700'
+    },
+    error: {
+      bg: 'bg-red-50',
+      border: 'border-red-200',
+      icon: <AlertTriangle className="h-5 w-5 text-red-500" />,
+      title: 'text-red-800',
+      description: 'text-red-700'
+    }
+  };
+  
+  const style = styles[type];
+  
+  return (
+    <div className={cn("rounded-md p-4 border", style.bg, style.border)}>
+      <div className="flex">
+        <div className="flex-shrink-0">
+          {style.icon}
         </div>
-        
-        <div className="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Today's Menu</h2>
-          <div className="space-y-4">
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Main Courses</p>
-                <p className="text-xl font-medium text-gray-900 dark:text-white">4 Options</p>
-              </div>
-              <div className="h-10 w-10 rounded-full bg-blue-100 p-2 dark:bg-blue-900/20">
-                <Utensils className="h-6 w-6 text-blue-600 dark:text-blue-500" />
-              </div>
-            </div>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                <span className="h-2 w-2 rounded-full bg-red-500"></span>
-                Beef Stroganoff with Rice
-              </li>
-              <li className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                <span className="h-2 w-2 rounded-full bg-blue-500"></span>
-                Grilled Salmon with Vegetables
-              </li>
-              <li className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                Vegetable Lasagna
-              </li>
-              <li className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                <span className="h-2 w-2 rounded-full bg-yellow-500"></span>
-                Turkey and Quinoa Salad
-              </li>
-            </ul>
-            <Button variant="outline" rightIcon={<ArrowRight className="h-4 w-4" />} fullWidth>
-              View Full Menu
-            </Button>
-          </div>
-        </div>
-        
-        <div className="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Kitchen Status</h2>
-          <div className="space-y-4">
-            <div className="flex justify-between">
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Production</p>
-                <p className="text-xl font-medium text-gray-900 dark:text-white">On Schedule</p>
-              </div>
-              <div className="h-10 w-10 rounded-full bg-purple-100 p-2 dark:bg-purple-900/20">
-                <ChefHat className="h-6 w-6 text-purple-600 dark:text-purple-500" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 dark:text-gray-300">Meat Options</span>
-                <span className="text-sm font-medium text-emerald-600 dark:text-emerald-500">100% Ready</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                <div className="h-full rounded-full bg-emerald-500" style={{ width: '100%' }}></div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 dark:text-gray-300">Fish Options</span>
-                <span className="text-sm font-medium text-emerald-600 dark:text-emerald-500">100% Ready</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                <div className="h-full rounded-full bg-emerald-500" style={{ width: '100%' }}></div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 dark:text-gray-300">Vegetarian Options</span>
-                <span className="text-sm font-medium text-yellow-600 dark:text-yellow-500">80% Ready</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                <div className="h-full rounded-full bg-yellow-500" style={{ width: '80%' }}></div>
-              </div>
-            </div>
-            <Button variant="outline" rightIcon={<ArrowRight className="h-4 w-4" />} fullWidth>
-              View Monitor
-            </Button>
+        <div className="ml-3">
+          <h3 className={cn("text-sm font-medium", style.title)}>{title}</h3>
+          <div className={cn("mt-2 text-sm", style.description)}>
+            <p>{description}</p>
           </div>
         </div>
       </div>
+    </div>
+  );
+};
 
-      {/* Activity & Alerts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Recent Activity */}
-        <div className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
-            <Button variant="ghost" size="sm">View All</Button>
+const DashboardPage: React.FC = () => {
+  return (
+    <div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p className="mt-1 text-sm text-gray-500">
+          Visão geral das operações e métricas principais
+        </p>
+      </div>
+      
+      {/* Alerts */}
+      <div className="mb-6 space-y-4">
+        <Alert 
+          type="warning"
+          title="Capacidade próxima do limite"
+          description="O refeitório Central está com 92% da capacidade reservada para o almoço de hoje."
+        />
+      </div>
+      
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatCard 
+          title="Reservas Hoje" 
+          value="387" 
+          icon={<Calendar className="h-6 w-6" />}
+          change={{ value: "+12% vs. semana passada", trend: "up" }}
+        />
+        <StatCard 
+          title="Consumidores Ativos" 
+          value="1,284" 
+          icon={<Users className="h-6 w-6" />}
+          change={{ value: "+3% vs. mês passado", trend: "up" }}
+        />
+        <StatCard 
+          title="Taxa de Ocupação" 
+          value="78%" 
+          icon={<BarChart3 className="h-6 w-6" />}
+          change={{ value: "+5% vs. semana passada", trend: "up" }}
+        />
+        <StatCard 
+          title="Avaliação Média" 
+          value="4.7/5" 
+          icon={<TrendingUp className="h-6 w-6" />}
+          change={{ value: "+0.2 vs. mês passado", trend: "up" }}
+        />
+      </div>
+      
+      {/* Main content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left column */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Reservations chart */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-medium text-gray-900">Reservas por Período</h2>
+              <div className="flex space-x-2">
+                <select className="text-sm border-gray-300 rounded-md">
+                  <option>Últimos 7 dias</option>
+                  <option>Últimos 30 dias</option>
+                  <option>Este mês</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="h-80 flex items-center justify-center bg-gray-50 rounded-md">
+              <p className="text-gray-500">Gráfico de reservas por período seria exibido aqui</p>
+            </div>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-start gap-4">
-              <div className="mt-1 rounded-full bg-blue-100 p-2 dark:bg-blue-900/20">
-                <Users className="h-4 w-4 text-blue-600 dark:text-blue-500" />
-              </div>
-              <div>
-                <p className="font-medium text-gray-900 dark:text-white">12 new consumers registered</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">20 minutes ago</p>
-              </div>
+          
+          {/* Recent activity */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Atividade Recente</h2>
+            
+            <div className="flow-root">
+              <ul className="-mb-8">
+                <li>
+                  <div className="relative pb-8">
+                    <span className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                    <div className="relative flex items-start space-x-3">
+                      <div className="relative">
+                        <div className="h-10 w-10 rounded-full bg-emerald-50 flex items-center justify-center ring-8 ring-white">
+                          <Utensils className="h-5 w-5 text-emerald-600" />
+                        </div>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div>
+                          <div className="text-sm">
+                            <a href="#" className="font-medium text-gray-900">Ementa Semanal</a>
+                          </div>
+                          <p className="mt-0.5 text-sm text-gray-500">
+                            Publicada a ementa para a próxima semana
+                          </p>
+                        </div>
+                        <div className="mt-2 text-sm text-gray-700">
+                          <p>A ementa para a semana de 15/05 a 19/05 foi publicada e está disponível para reservas.</p>
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">
+                        <time dateTime="2023-05-08T09:12:00">Hoje, 09:12</time>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                
+                <li>
+                  <div className="relative pb-8">
+                    <span className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                    <div className="relative flex items-start space-x-3">
+                      <div className="relative">
+                        <div className="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center ring-8 ring-white">
+                          <Users className="h-5 w-5 text-blue-600" />
+                        </div>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div>
+                          <div className="text-sm">
+                            <a href="#" className="font-medium text-gray-900">Novos Consumidores</a>
+                          </div>
+                          <p className="mt-0.5 text-sm text-gray-500">
+                            27 novos consumidores adicionados
+                          </p>
+                        </div>
+                        <div className="mt-2 text-sm text-gray-700">
+                          <p>Departamento de Marketing adicionou 27 novos consumidores ao sistema.</p>
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">
+                        <time dateTime="2023-05-07T14:32:00">Ontem, 14:32</time>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                
+                <li>
+                  <div className="relative pb-8">
+                    <div className="relative flex items-start space-x-3">
+                      <div className="relative">
+                        <div className="h-10 w-10 rounded-full bg-amber-50 flex items-center justify-center ring-8 ring-white">
+                          <Clock className="h-5 w-5 text-amber-600" />
+                        </div>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div>
+                          <div className="text-sm">
+                            <a href="#" className="font-medium text-gray-900">Período de Reservas</a>
+                          </div>
+                          <p className="mt-0.5 text-sm text-gray-500">
+                            Alteração no horário de reservas
+                          </p>
+                        </div>
+                        <div className="mt-2 text-sm text-gray-700">
+                          <p>O horário limite para reservas do jantar foi alterado para 15:00h.</p>
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">
+                        <time dateTime="2023-05-05T10:15:00">05/05, 10:15</time>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
-            <div className="flex items-start gap-4">
-              <div className="mt-1 rounded-full bg-emerald-100 p-2 dark:bg-emerald-900/20">
-                <Utensils className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
-              </div>
-              <div>
-                <p className="font-medium text-gray-900 dark:text-white">Menu for next week published</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">1 hour ago</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="mt-1 rounded-full bg-amber-100 p-2 dark:bg-amber-900/20">
-                <ShoppingCart className="h-4 w-4 text-amber-600 dark:text-amber-500" />
-              </div>
-              <div>
-                <p className="font-medium text-gray-900 dark:text-white">Inventory alert: Low stock on 3 items</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">2 hours ago</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="mt-1 rounded-full bg-purple-100 p-2 dark:bg-purple-900/20">
-                <PieChart className="h-4 w-4 text-purple-600 dark:text-purple-500" />
-              </div>
-              <div>
-                <p className="font-medium text-gray-900 dark:text-white">Monthly report generated</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">5 hours ago</p>
-              </div>
+            
+            <div className="mt-6">
+              <a href="#" className="text-sm font-medium text-emerald-600 hover:text-emerald-500">
+                Ver todas as atividades
+              </a>
             </div>
           </div>
         </div>
         
-        {/* Alerts & Notifications */}
-        <div className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Alerts & Notifications</h2>
-            <Button variant="ghost" size="sm">Settings</Button>
+        {/* Right column */}
+        <div className="space-y-6">
+          {/* Today's menu */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Ementa de Hoje</h2>
+            
+            <div className="space-y-5">
+              <div>
+                <h3 className="text-sm font-medium text-gray-900">Almoço</h3>
+                <ul className="mt-2 divide-y divide-gray-200">
+                  <li className="py-3">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          Prato Principal
+                        </span>
+                      </div>
+                      <div className="ml-3 flex-1">
+                        <p className="text-sm font-medium text-gray-900">Bacalhau à Brás</p>
+                        <p className="mt-1 text-xs text-gray-500">Nutriscore: A</p>
+                      </div>
+                      <div className="ml-3 flex-shrink-0">
+                        <span className="inline-block h-6 w-6 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium flex items-center justify-center">
+                          87
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="py-3">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          Prato Principal
+                        </span>
+                      </div>
+                      <div className="ml-3 flex-1">
+                        <p className="text-sm font-medium text-gray-900">Bife de Peru Grelhado</p>
+                        <p className="mt-1 text-xs text-gray-500">Nutriscore: B</p>
+                      </div>
+                      <div className="ml-3 flex-shrink-0">
+                        <span className="inline-block h-6 w-6 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium flex items-center justify-center">
+                          65
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="py-3">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                          Vegetariano
+                        </span>
+                      </div>
+                      <div className="ml-3 flex-1">
+                        <p className="text-sm font-medium text-gray-900">Lasanha de Legumes</p>
+                        <p className="mt-1 text-xs text-gray-500">Nutriscore: A</p>
+                      </div>
+                      <div className="ml-3 flex-shrink-0">
+                        <span className="inline-block h-6 w-6 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium flex items-center justify-center">
+                          42
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-sm font-medium text-gray-900">Jantar</h3>
+                <ul className="mt-2 divide-y divide-gray-200">
+                  <li className="py-3">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          Prato Principal
+                        </span>
+                      </div>
+                      <div className="ml-3 flex-1">
+                        <p className="text-sm font-medium text-gray-900">Arroz de Pato</p>
+                        <p className="mt-1 text-xs text-gray-500">Nutriscore: B</p>
+                      </div>
+                      <div className="ml-3 flex-shrink-0">
+                        <span className="inline-block h-6 w-6 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium flex items-center justify-center">
+                          53
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="py-3">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          Peixe
+                        </span>
+                      </div>
+                      <div className="ml-3 flex-1">
+                        <p className="text-sm font-medium text-gray-900">Salmão Grelhado</p>
+                        <p className="mt-1 text-xs text-gray-500">Nutriscore: A</p>
+                      </div>
+                      <div className="ml-3 flex-shrink-0">
+                        <span className="inline-block h-6 w-6 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium flex items-center justify-center">
+                          38
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="mt-6">
+              <a href="#" className="text-sm font-medium text-emerald-600 hover:text-emerald-500">
+                Ver ementa completa
+              </a>
+            </div>
           </div>
-          <div className="space-y-4">
-            <div className="rounded-md bg-red-50 p-4 dark:bg-red-900/20">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+          
+          {/* Top rated meals */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Refeições Mais Bem Avaliadas</h2>
+            
+            <ol className="space-y-4">
+              <li className="flex items-center space-x-3">
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-medium">
+                  1
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">Bacalhau à Brás</p>
+                  <p className="text-xs text-gray-500">Servido 127 vezes</p>
+                </div>
+                <div className="flex items-center space-x-1 text-amber-500">
+                  <span className="text-sm font-medium">4.9</span>
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-red-800 dark:text-red-200">Capacity exceeded for Lunch period</h3>
-                  <div className="mt-2 text-sm text-red-700 dark:text-red-300">
-                    <p>Current reservations: 253/250. Please adjust capacity or contact administrator.</p>
-                  </div>
+              </li>
+              <li className="flex items-center space-x-3">
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-medium">
+                  2
                 </div>
-              </div>
-            </div>
-            <div className="rounded-md bg-yellow-50 p-4 dark:bg-yellow-900/20">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">Lasanha de Legumes</p>
+                  <p className="text-xs text-gray-500">Servido 98 vezes</p>
+                </div>
+                <div className="flex items-center space-x-1 text-amber-500">
+                  <span className="text-sm font-medium">4.8</span>
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">High no-show rate detected</h3>
-                  <div className="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
-                    <p>No-show rate has increased to 12% this week. Consider implementing reservation reminders.</p>
-                  </div>
+              </li>
+              <li className="flex items-center space-x-3">
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-medium">
+                  3
                 </div>
-              </div>
-            </div>
-            <div className="rounded-md bg-blue-50 p-4 dark:bg-blue-900/20">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">Salmão Grelhado</p>
+                  <p className="text-xs text-gray-500">Servido 112 vezes</p>
+                </div>
+                <div className="flex items-center space-x-1 text-amber-500">
+                  <span className="text-sm font-medium">4.7</span>
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">System maintenance scheduled</h3>
-                  <div className="mt-2 text-sm text-blue-700 dark:text-blue-300">
-                    <p>System will be under maintenance on Sunday, June 20, from 2:00 AM to 4:00 AM.</p>
-                  </div>
+              </li>
+              <li className="flex items-center space-x-3">
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-medium">
+                  4
                 </div>
-              </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">Arroz de Pato</p>
+                  <p className="text-xs text-gray-500">Servido 87 vezes</p>
+                </div>
+                <div className="flex items-center space-x-1 text-amber-500">
+                  <span className="text-sm font-medium">4.6</span>
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </li>
+              <li className="flex items-center space-x-3">
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-medium">
+                  5
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">Bife de Peru Grelhado</p>
+                  <p className="text-xs text-gray-500">Servido 103 vezes</p>
+                </div>
+                <div className="flex items-center space-x-1 text-amber-500">
+                  <span className="text-sm font-medium">4.5</span>
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </li>
+            </ol>
+            
+            <div className="mt-6">
+              <a href="#" className="text-sm font-medium text-emerald-600 hover:text-emerald-500">
+                Ver todas as avaliações
+              </a>
             </div>
           </div>
         </div>
@@ -315,3 +498,5 @@ export const DashboardPage: React.FC = () => {
     </div>
   );
 };
+
+export default DashboardPage;
