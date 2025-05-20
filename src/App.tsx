@@ -21,44 +21,99 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (!user) {
     // Check if we're on admin domain
     const isAdminDomain = window.location.hostname === 'root.mealflow.net';
-    return <Navigate to={isAdminDomain ? "/admin/login" : "/login"} replace />;
+    return <Navigate to={isAdminDomain ? "/login" : "/login"} replace />;
   }
   
   return <>{children}</>;
 };
+
+const LandingPage = () => (
+  <div className="flex min-h-screen flex-col bg-white">
+    {/* Hero Section */}
+    <header className="bg-gradient-to-r from-emerald-600 to-emerald-800 py-16 text-white">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center text-center">
+          <h1 className="mb-6 text-5xl font-bold">MealFlow</h1>
+          <p className="mb-8 text-xl">A solução completa para gestão de refeitórios</p>
+          <div className="flex gap-4">
+            <a href="https://root.mealflow.net/login" className="rounded-lg bg-white px-6 py-3 font-semibold text-emerald-600 transition hover:bg-gray-100">
+              Acesso Administração
+            </a>
+            <a href="https://demo.mealflow.net/login" className="rounded-lg border-2 border-white px-6 py-3 font-semibold text-white transition hover:bg-white/10">
+              Demo Tenant
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {/* Features Section */}
+    <section className="py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Recursos Principais</h2>
+        <div className="grid gap-8 md:grid-cols-3">
+          <div className="rounded-lg p-6 shadow-lg">
+            <h3 className="mb-4 text-xl font-semibold text-emerald-600">Gestão de Refeições</h3>
+            <p className="text-gray-600">Planejamento eficiente de cardápios e controle de reservas</p>
+          </div>
+          <div className="rounded-lg p-6 shadow-lg">
+            <h3 className="mb-4 text-xl font-semibold text-emerald-600">Controle de Estoque</h3>
+            <p className="text-gray-600">Gestão completa de inventário e fornecedores</p>
+          </div>
+          <div className="rounded-lg p-6 shadow-lg">
+            <h3 className="mb-4 text-xl font-semibold text-emerald-600">Análise de Dados</h3>
+            <p className="text-gray-600">Relatórios detalhados e insights para tomada de decisão</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Footer */}
+    <footer className="mt-auto bg-gray-900 py-8 text-white">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <div>© 2025 MealFlow. Todos os direitos reservados.</div>
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-emerald-400">Sobre</a>
+            <a href="#" className="hover:text-emerald-400">Contato</a>
+            <a href="#" className="hover:text-emerald-400">Termos</a>
+            <a href="#" className="hover:text-emerald-400">Privacidade</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+);
 
 const AppRoutes = () => {
   // Determine the current domain type
   const hostname = window.location.hostname;
   const isAdminDomain = hostname === 'root.mealflow.net';
   const isTenantDomain = hostname.includes('.mealflow.net') && !isAdminDomain;
+  const isMainDomain = !isAdminDomain && !isTenantDomain;
 
   if (isAdminDomain) {
     return (
       <Router>
         <Routes>
           {/* Admin SaaS routes */}
-          <Route path="/admin/login" element={<LoginPage isAdmin />} />
+          <Route path="/login" element={<LoginPage isAdmin />} />
           
           <Route
-            path="/admin/*"
+            path="/*"
             element={
               <ProtectedRoute>
                 <AppLayout isAdmin />
               </ProtectedRoute>
             }
           >
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage isAdmin />} />
             <Route path="tenants" element={<div>Tenant Management</div>} />
             <Route path="modules" element={<div>Module Management</div>} />
             <Route path="support" element={<div>Support Dashboard</div>} />
             <Route path="audit" element={<div>Audit Logs</div>} />
           </Route>
-          
-          {/* Redirect root to admin dashboard */}
-          <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
         </Routes>
       </Router>
     );
@@ -72,7 +127,7 @@ const AppRoutes = () => {
           <Route path="/login" element={<LoginPage />} />
           
           <Route
-            path="/"
+            path="/*"
             element={
               <ProtectedRoute>
                 <AppLayout />
@@ -112,7 +167,7 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<div>MealFlow Landing Page</div>} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
