@@ -52,6 +52,44 @@ export const LoginPage: React.FC<LoginPageProps> = ({ isAdmin = false }) => {
 
   return (
     <div className="flex min-h-screen bg-white dark:bg-gray-900">
+      {/* Branding Side - Only show for tenant login */}
+      {!isAdmin && (
+        <div className="relative hidden w-0 flex-1 lg:block">
+          <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-emerald-600 to-emerald-800">
+            <div className="flex h-full flex-col items-center justify-center p-12">
+              <div className="mb-8">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                  <path d="M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                  <path d="M9.25 11.5L4.75 14L12 18.25L19.25 14L14.6722 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                </svg>
+              </div>
+              <h1 className="mb-4 text-4xl font-bold text-white">MealFlow</h1>
+              <p className="mb-8 text-center text-xl text-white/90">
+                A plataforma completa para gestão integrada de refeitórios
+              </p>
+              <div className="grid w-full max-w-lg grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+                  <h3 className="mb-2 font-semibold text-white">Reserva de Refeições</h3>
+                  <p className="text-sm text-white/90">Planeamento e gestão eficiente de opções e reservas de refeições</p>
+                </div>
+                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+                  <h3 className="mb-2 font-semibold text-white">Monitorização de Cozinha</h3>
+                  <p className="text-sm text-white/90">Acompanhamento em tempo real da produção e painéis operacionais</p>
+                </div>
+                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+                  <h3 className="mb-2 font-semibold text-white">Gestão de Consumidores</h3>
+                  <p className="text-sm text-white/90">Perfis completos com preferências e restrições alimentares</p>
+                </div>
+                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+                  <h3 className="mb-2 font-semibold text-white">Análise de Dados</h3>
+                  <p className="text-sm text-white/90">Insights acionáveis para otimização de operações e redução de desperdício</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Login Form Side */}
       <div className="flex w-full items-center justify-center px-4 py-12 sm:px-6 lg:w-1/2 lg:px-8">
         <div className="w-full max-w-md space-y-8">
@@ -165,44 +203,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ isAdmin = false }) => {
           </form>
         </div>
       </div>
-      
-      {/* Branding Side - Only show for tenant login */}
-      {!isAdmin && (
-        <div className="relative hidden w-0 flex-1 lg:block">
-          <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-emerald-600 to-emerald-800">
-            <div className="flex h-full flex-col items-center justify-center p-12">
-              <div className="mb-8">
-                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                  <path d="M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path d="M9.25 11.5L4.75 14L12 18.25L19.25 14L14.6722 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
-              </div>
-              <h1 className="mb-4 text-4xl font-bold text-white">MealFlow</h1>
-              <p className="mb-8 text-center text-xl text-white/90">
-                A plataforma completa para gestão integrada de refeitórios
-              </p>
-              <div className="grid w-full max-w-lg grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                  <h3 className="mb-2 font-semibold text-white">Reserva de Refeições</h3>
-                  <p className="text-sm text-white/90">Planeamento e gestão eficiente de opções e reservas de refeições</p>
-                </div>
-                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                  <h3 className="mb-2 font-semibold text-white">Monitorização de Cozinha</h3>
-                  <p className="text-sm text-white/90">Acompanhamento em tempo real da produção e painéis operacionais</p>
-                </div>
-                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                  <h3 className="mb-2 font-semibold text-white">Gestão de Consumidores</h3>
-                  <p className="text-sm text-white/90">Perfis completos com preferências e restrições alimentares</p>
-                </div>
-                <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                  <h3 className="mb-2 font-semibold text-white">Análise de Dados</h3>
-                  <p className="text-sm text-white/90">Insights acionáveis para otimização de operações e redução de desperdício</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
