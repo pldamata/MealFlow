@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   
   if (!user) {
     const isAdminDomain = window.location.hostname === 'root.mealflow.net';
-    return <Navigate to={isAdminDomain ? "/login" : "/login"} replace />;
+    return <Navigate to="/login" replace />;
   }
   
   return <>{children}</>;
@@ -27,7 +27,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const LandingPage = () => (
   <div className="flex min-h-screen flex-col bg-white">
-    {/* Hero Section */}
     <header className="bg-gradient-to-r from-emerald-600 to-emerald-800 py-16 text-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">
@@ -45,7 +44,6 @@ const LandingPage = () => (
       </div>
     </header>
 
-    {/* Features Section */}
     <section className="py-16">
       <div className="container mx-auto px-4">
         <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Recursos Principais</h2>
@@ -66,7 +64,6 @@ const LandingPage = () => (
       </div>
     </section>
 
-    {/* Footer */}
     <footer className="mt-auto bg-gray-900 py-8 text-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -143,7 +140,6 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
             
-            {/* Reserves module routes */}
             <Route path="reserves">
               <Route path="meals" element={<div>Meal Management</div>} />
               <Route path="plans" element={<div>Menu Planning</div>} />
@@ -154,7 +150,6 @@ const AppRoutes = () => {
               <Route path="monitor" element={<div>Kitchen Monitor</div>} />
             </Route>
             
-            {/* Settings routes */}
             <Route path="settings">
               <Route path="general" element={<div>General Settings</div>} />
               <Route path="users" element={<div>User Management</div>} />
@@ -162,7 +157,6 @@ const AppRoutes = () => {
             </Route>
           </Route>
           
-          {/* Fallback route */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Router>
