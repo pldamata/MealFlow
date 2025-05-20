@@ -87,13 +87,23 @@ const AppRoutes = () => {
   const hostname = window.location.hostname;
   const isAdminDomain = hostname === 'root.mealflow.net';
   const isTenantDomain = hostname.includes('.mealflow.net') && !isAdminDomain;
-  const isMainDomain = !isAdminDomain && !isTenantDomain;
+  const isMainDomain = hostname === 'www.mealflow.net' || hostname === 'mealflow.net';
+
+  if (isMainDomain) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    );
+  }
 
   if (isAdminDomain) {
     return (
       <Router>
         <Routes>
-          {/* Admin SaaS routes */}
           <Route path="/login" element={<LoginPage isAdmin />} />
           
           <Route
@@ -120,7 +130,6 @@ const AppRoutes = () => {
     return (
       <Router>
         <Routes>
-          {/* Tenant routes */}
           <Route path="/login" element={<LoginPage />} />
           
           <Route
@@ -160,7 +169,6 @@ const AppRoutes = () => {
     );
   }
 
-  // Main domain (www.mealflow.net) - Landing page
   return (
     <Router>
       <Routes>
