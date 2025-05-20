@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   
   if (!user) {
     const isAdminDomain = window.location.hostname === 'root.mealflow.net';
-    return <Navigate to="/login" replace />;
+    return <Navigate to={isAdminDomain ? "/login" : "/login"} replace />;
   }
   
   return <>{children}</>;
@@ -31,6 +31,7 @@ const LandingPage = () => (
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">
           <img src="/images/mealflow-logo.png" alt="MealFlow" className="mb-8 h-24" />
+          <h1 className="mb-4 text-4xl font-bold">MealFlow</h1>
           <p className="mb-8 text-xl">A solução completa para gestão de refeitórios</p>
           <div className="flex gap-4">
             <a href="https://root.mealflow.net/login" className="rounded-lg bg-white px-6 py-3 font-semibold text-emerald-600 transition hover:bg-gray-100">
