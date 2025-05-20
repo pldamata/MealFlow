@@ -8,10 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "setup": "node scripts/setup-hosts.js"
+    "setup": "node scripts/setup-hosts.js",
+    "db:setup": "node scripts/setup-database.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.7",
     "class-variance-authority": "^0.7.0",
     "date-fns": "2.30.0",
     "date-fns-tz": "^2.0.0",
