@@ -1,16 +1,19 @@
-import { Sidebar } from "@/components/dashboard/sidebar"
+import { TenantProvider } from '@/lib/multi-tenant/tenant-context';
+import { Sidebar } from '@/components/dashboard/sidebar';
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen">
-      <div className="hidden border-r bg-muted/40 md:block md:w-64">
+    <TenantProvider>
+      <div className="flex h-screen">
         <Sidebar />
+        <div className="flex-1 overflow-auto">
+          {children}
+        </div>
       </div>
-      <div className="flex-1">{children}</div>
-    </div>
-  )
+    </TenantProvider>
+  );
 }

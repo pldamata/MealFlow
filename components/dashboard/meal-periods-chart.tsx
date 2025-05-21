@@ -1,103 +1,93 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  Legend
+} from 'recharts';
 
+// Dados simulados para demonstração
 const data = [
   {
-    name: "Seg",
-    breakfast: 65,
-    lunch: 240,
-    dinner: 150,
+    name: 'Seg',
+    cafe: 65,
+    almoco: 120,
+    jantar: 45,
   },
   {
-    name: "Ter",
-    breakfast: 70,
-    lunch: 255,
-    dinner: 145,
+    name: 'Ter',
+    cafe: 70,
+    almoco: 132,
+    jantar: 50,
   },
   {
-    name: "Qua",
-    breakfast: 62,
-    lunch: 230,
-    dinner: 140,
+    name: 'Qua',
+    cafe: 62,
+    almoco: 125,
+    jantar: 42,
   },
   {
-    name: "Qui",
-    breakfast: 75,
-    lunch: 260,
-    dinner: 160,
+    name: 'Qui',
+    cafe: 75,
+    almoco: 140,
+    jantar: 55,
   },
   {
-    name: "Sex",
-    breakfast: 68,
-    lunch: 245,
-    dinner: 155,
+    name: 'Sex',
+    cafe: 80,
+    almoco: 150,
+    jantar: 60,
   },
   {
-    name: "Sáb",
-    breakfast: 40,
-    lunch: 120,
-    dinner: 90,
+    name: 'Sáb',
+    cafe: 45,
+    almoco: 85,
+    jantar: 30,
   },
   {
-    name: "Dom",
-    breakfast: 35,
-    lunch: 100,
-    dinner: 80,
+    name: 'Dom',
+    cafe: 30,
+    almoco: 60,
+    jantar: 25,
   },
-]
-
-const chartConfig = {
-  breakfast: {
-    label: "Pequeno-almoço",
-    theme: {
-      light: "hsl(var(--chart-1))",
-      dark: "hsl(var(--chart-1))",
-    },
-  },
-  lunch: {
-    label: "Almoço",
-    theme: {
-      light: "hsl(var(--chart-2))",
-      dark: "hsl(var(--chart-2))",
-    },
-  },
-  dinner: {
-    label: "Jantar",
-    theme: {
-      light: "hsl(var(--chart-3))",
-      dark: "hsl(var(--chart-3))",
-    },
-  },
-}
+];
 
 export function MealPeriodsChart() {
   return (
-    <Card className="col-span-1 lg:col-span-1">
+    <Card className="col-span-1">
       <CardHeader>
-        <CardTitle>Reservas por Período</CardTitle>
-        <CardDescription>
-          Distribuição de reservas por período de refeição na última semana.
-        </CardDescription>
+        <CardTitle>Refeições por Período</CardTitle>
       </CardHeader>
-      <CardContent className="pl-2">
-        <ChartContainer config={chartConfig} className="aspect-auto h-80">
+      <CardContent>
+        <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <BarChart
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="breakfast" fill="var(--color-breakfast)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="lunch" fill="var(--color-lunch)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="dinner" fill="var(--color-dinner)" radius={[4, 4, 0, 0]} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="cafe" name="Café da Manhã" fill="#8884d8" />
+              <Bar dataKey="almoco" name="Almoço" fill="#82ca9d" />
+              <Bar dataKey="jantar" name="Jantar" fill="#ffc658" />
             </BarChart>
           </ResponsiveContainer>
-        </ChartContainer>
+        </div>
       </CardContent>
     </Card>
-  )
+  );
 }

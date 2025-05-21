@@ -7,7 +7,7 @@ Este documento detalha o plano de desenvolvimento passo a passo para a implement
 ### 1.1 Configuração do Ambiente de Desenvolvimento (Semana 1)
 
 - [x] Configurar repositório Git com estrutura de branches (main, develop, feature/*)
-- [x] Configurar ambiente de desenvolvimento local com Docker
+- [x] Configurar ambiente de desenvolvimento local
 - [x] Configurar pipeline CI/CD (GitHub Actions ou similar)
 - [x] Definir padrões de código e linting
 - [x] Configurar ambiente de testes automatizados

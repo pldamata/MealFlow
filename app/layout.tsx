@@ -1,14 +1,12 @@
-import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'MealFlow - Gestão de Refeitórios',
-  description: 'Plataforma SaaS para gestão completa de refeitórios',
+  title: 'MealFlow - Gestão de Cafeterias e Refeitórios',
+  description: 'Plataforma SaaS para gestão de cafeterias e refeitórios',
 };
 
 export default function RootLayout({
@@ -17,18 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
-      </body>
+    <html lang="pt-BR">
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
